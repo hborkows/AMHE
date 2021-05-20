@@ -11,7 +11,7 @@ class Agent:
 
     def init_population(self, network: Network) -> List:
         #check for pep standard layout
-        population = [Chromosome([], network, self.rng)  for _ in range(self.poputation_size)]
+        population = [Chromosome([], network, self.rng) for _ in range(self.poputation_size)]
         return population
 
     def do_evolution(self):

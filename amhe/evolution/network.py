@@ -52,3 +52,10 @@ class Network:
                 paths.append(path)
             for k, v in child.attrib.items():
                 self._add_demand(v, child[2].text, paths)
+
+    def find_index(self, index1, index2):
+        counter = 0
+        for edge in self.net.edges:
+            if (edge[0] == index1 and edge[1] == index2) or (edge[0] == index2 and edge[1] == index1):
+                return counter
+            counter += 1

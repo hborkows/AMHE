@@ -46,18 +46,15 @@ class Chromosome:
 
     def number_of_visits(self) -> int:
         edges_numer = self.network.net.number_of_edges()
-        edges = [0 for _ in range(edges_numer)]
+        edges = [0.0 for _ in range(edges_numer)]
 
         for i in range(len(self.chrom)):
-            for j in range (len(self.chrom[i])):
+            for j in range(len(self.chrom[i])):
                 for edge in self.network.demands[i].paths[j]:
-                    if self.network.option == 0:
-                        if edges[self.network.findIndex(int(edge[0]), int(edge[1]))] < float(self.chrom[i][j]):
-                            edges[self.network.findIndex(int(edge[0]), int(edge[1]))] = float(self.chrom[i][j])
-                    else:
-                        edges[self.network.findIndex(int(edge[0]), int(edge[1]))] += float(self.chrom[i][j])
+                    if edges[self.network.find_index(int(edge[0]), int(edge[1]))] < float(self.chrom[i][j]):
+                        edges[self.network.find_index(int(edge[0]), int(edge[1]))] = float(self.chrom[i][j])
 
-        numberOfSystems = 0
+        number_of_systems = 0
         for edge in edges:
-            numberOfSystems += math.ceil(edge/self.network.modularity)
-        return numberOfSystems
+            number_of_systems += math.ceil(edge/self.network.modularity)
+        return number_of_systems

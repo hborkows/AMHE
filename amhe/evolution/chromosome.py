@@ -45,7 +45,7 @@ class Chromosome:
         pass
 
     def number_of_visits(self) -> int:
-        edges_numer = self.network.graph.number_of_edges()
+        edges_numer = self.network.net.number_of_edges()
         edges = [0 for _ in range(edges_numer)]
 
         for i in range(len(self.chrom)):

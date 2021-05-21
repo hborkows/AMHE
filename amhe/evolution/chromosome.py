@@ -48,7 +48,7 @@ class Chromosome:
 
     def mutate(self, mutation_chance):
         # choose right
-        #scaling_factor = self.number_of_visits()
+        # scaling_factor = self.number_of_visits()
         scaling_factor = 1
         for gen in self.chrom:
             if self.rng.random() < mutation_chance:

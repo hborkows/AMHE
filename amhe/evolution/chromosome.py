@@ -12,7 +12,7 @@ class Chromosome:
         self.network: Network = network
         self.rng = rng
 
-    def fill_random(self):
+    def fill_random(self) -> None:
         for d in self.network.demands:
             supply = self._get_dirichlet_distribution(
                 vector_lenght=len(d.paths), vector_sum=d.capacity)
@@ -46,7 +46,10 @@ class Chromosome:
         # it should be only one but should it be better?
         return Chromosome(descendent1, self.network, self.rng)
 
-    def mutate(self, mutation_chance):
+    def mutate(self, mutation_chance: float) -> None:
+        '''
+        mutation chance between 0 and 1
+        '''
         # choose right
         # scaling_factor = self.number_of_visits()
         scaling_factor = 1
@@ -56,7 +59,7 @@ class Chromosome:
                 gen = self._get_dirichlet_distribution(
                     len(gen), capacity, scaling_factor)
 
-    def __lt__(self, other):
+    def __lt__(self, other) -> bool:
         return self.number_of_visits() < other.number_of_visits()
 
     def number_of_visits(self) -> int:
@@ -79,7 +82,7 @@ class Chromosome:
             numberOfSystems += math.ceil(edge / self.network.modularity)
         return numberOfSystems
 
-    def returnBestConfig(self):
+    def returnBestConfig(self) -> List:
         edges = []
         for i in range(self.network.graph.number_of_edges()):
             edges.append(0)

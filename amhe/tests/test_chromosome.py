@@ -1,7 +1,7 @@
-from typing import Sized
 from amhe.evolution.chromosome import Chromosome
-from mock import Mock
 from amhe.evolution.network import Network
+from typing import Sized
+from mock import Mock
 import numpy as np
 
 

@@ -10,7 +10,13 @@ class Chromosome:
     def __init__(self, chrom: List, network: Network, rng: np.Generator):
         self.chrom: List = deepcopy(chrom)
         self.network: Network = network
-        self.rng = rng 
+        self.rng = rng
+
+    def __gt__(self, other: Chromosome):
+        return self.number_of_visits() > other.number_of_visits()
+
+    def __lt__(self, other: Chromosome):
+        return self.number_of_visits() < other.number_of_visits()
 
     def fill_random(self):       
         for d in self.network.demands:

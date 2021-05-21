@@ -5,14 +5,34 @@ from typing import List
 
 
 class Agent:    
-    def __init__(self, population_size=10) -> None:
-        self.poputation_size = population_size
-        self.rng = np.random.default_rng(6969)  
+    def __init__(self, population_size: int = 10, mutation_chance: float = 0.05):
+        self._poputation_size = population_size
+        self._rng = np.random.default_rng(6969)
+        self._population: List[Chromosome] = []
+        self._mutation_chance = mutation_chance
 
-    def init_population(self, network: Network) -> List:
+    def _init_population(self, network: Network):
         #check for pep standard layout
-        population = [Chromosome([], network, self.rng) for _ in range(self.poputation_size)]
-        return population
+        self._population = [Chromosome([], network, self._rng) for _ in range(self._poputation_size)]
 
-    def do_evolution(self):
+    def _do_mutate(self):
+        for specimen in self._population:
+            specimen.mutate(self._mutation_chance)
+
+    def _do_cross(self):  # should be in place on self._population object
         pass
+
+    def _select_new_population(self):
+        self._do_mutate()
+        self._do_cross()
+
+    def do_evolution(self, network: Network, max_repeats: int = 10000):
+        self._init_population(network)
+
+        i = 0
+        finish = False
+        while i < max_repeats and not finish:
+            i += 1
+
+
+

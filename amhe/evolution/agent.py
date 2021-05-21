@@ -15,8 +15,8 @@ class Agent:
         self._max_lt_epsilon_allowed = max_lt_epsilon_allowed
 
     def _init_population(self, network: Network):
-        #check for pep standard layout
-        self._population = [Chromosome([], network, self._rng) for _ in range(self._poputation_size)]
+        self._population = [Chromosome([], network, self._rng)
+                            for _ in range(self._poputation_size)]
 
     def _do_mutate(self):
         for specimen in self._population:

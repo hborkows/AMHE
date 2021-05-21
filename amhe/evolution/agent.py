@@ -5,11 +5,14 @@ from typing import List
 
 
 class Agent:    
-    def __init__(self, population_size: int = 10, mutation_chance: float = 0.05):
+    def __init__(self, population_size: int = 10, mutation_chance: float = 0.05,
+                 epsilon: float = 0.001,max_lt_epsilon_allowed: int = 10):
         self._poputation_size = population_size
         self._rng = np.random.default_rng(6969)
         self._population: List[Chromosome] = []
         self._mutation_chance = mutation_chance
+        self._epsilon = epsilon
+        self._max_lt_epsilon_allowed = max_lt_epsilon_allowed
 
     def _init_population(self, network: Network):
         #check for pep standard layout
@@ -26,13 +29,41 @@ class Agent:
         self._do_mutate()
         self._do_cross()
 
-    def do_evolution(self, network: Network, max_repeats: int = 10000):
+    def _sort_population(self):
+        self._population = self._population.sort()
+
+    # Returns best chromosome
+    def do_evolution(self, network: Network, max_repeats: int = 10000) -> Chromosome:
         self._init_population(network)
+        self._sort_population()
 
         i = 0
-        finish = False
-        while i < max_repeats and not finish:
+        lt_epsilon_count = 0
+        best_so_far = self._population[0]
+        best_result_so_far = best_so_far.number_of_visits()
+
+        while i < max_repeats:
+            best_from_current = self._population[0]
+            best_result_from_current = best_from_current.number_of_visits()
+
+            if best_from_current < best_so_far:
+                best_so_far = best_from_current
+
+            if abs(best_result_so_far - best_result_from_current) <= self._epsilon:
+                lt_epsilon_count += 1
+            else:
+                lt_epsilon_count = 0
+
+            if lt_epsilon_count >= self._max_lt_epsilon_allowed:
+                return best_so_far
+
+            best_result_so_far = best_so_far.number_of_visits()
             i += 1
+            self._select_new_population()
+            self._sort_population()
+
+        return best_so_far
+
 
 
 

@@ -19,7 +19,8 @@ class Network:
     def _add_edge(self, start_node, end_node, capacity):
         start_index = self.nodes.index(start_node)
         end_index = self.nodes.index(end_node)
-        self.net.add_edge(start_index, end_index, c1=start_index, c2=end_index, capacity=capacity, systems=capacity//self.modularity)
+        self.net.add_edge(start_index, end_index, c1=start_index, c2=end_index,
+                          capacity=capacity, systems=capacity//self.modularity)
 
     def _add_demand(self, id: int, capacity: int, paths: List):
         demand: Demand = Demand(id, capacity)
@@ -31,14 +32,16 @@ class Network:
         tree = ElementTree.parse(filename)
         root = tree.getroot()
 
-        for child in root[0][0]: # read cities - nodes in graph
+        # read cities - nodes in graph
+        for child in root[0][0]:
             for k, v in child.attrib.items():
                 self._add_node(v)
 
         edges = []
         for child in root[0][1]:
             self._add_edge(child[0].text, child[1].text, 0)
-            edges.append((self.nodes.index(child[0].text), self.nodes.index(child[1].text)))
+            edges.append(
+                (self.nodes.index(child[0].text), self.nodes.index(child[1].text)))
             for k, v in child.attrib.items():
                 self.link_ids.append(v)
 

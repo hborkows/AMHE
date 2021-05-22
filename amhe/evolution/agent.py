@@ -4,9 +4,9 @@ import numpy as np
 from typing import List
 
 
-class Agent:    
+class Agent:
     def __init__(self, population_size: int = 10, mutation_chance: float = 0.05,
-                 epsilon: float = 0.001,max_lt_epsilon_allowed: int = 10):
+                 epsilon: float = 0.001, max_lt_epsilon_allowed: int = 10):
         self._poputation_size = population_size
         self._rng = np.random.default_rng(6969)
         self._population: List[Chromosome] = []
@@ -17,6 +17,8 @@ class Agent:
     def _init_population(self, network: Network):
         self._population = [Chromosome([], network, self._rng)
                             for _ in range(self._poputation_size)]
+        for chrom in self._population:
+            chrom.fill_random()
 
     def _do_mutate(self):
         for specimen in self._population:
@@ -31,8 +33,9 @@ class Agent:
 
     def _sort_population(self):
         self._population = self._population.sort()
-
+        assert(self._population is not None)
     # Returns best chromosome
+
     def do_evolution(self, network: Network, max_repeats: int = 10000) -> Chromosome:
         self._init_population(network)
         self._sort_population()
@@ -63,7 +66,3 @@ class Agent:
             self._sort_population()
 
         return best_so_far
-
-
-
-

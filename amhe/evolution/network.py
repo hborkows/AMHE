@@ -23,7 +23,6 @@ class Network:
         self.net.add_edge(start_index, end_index, c1=start_index, c2=end_index,
                           capacity=capacity, systems=capacity//self.modularity)
 
-
     def _add_demand(self, id: int, capacity: int, paths: List):
         demand: Demand = Demand(id, capacity)
         for path in paths:
@@ -42,7 +41,8 @@ class Network:
         edges = []
         for child in root[0][1]:
             self._add_edge(child[0].text, child[1].text, 0)
-            edges.append((self.nodes[child[0].text], self.nodes[child[1].text]))
+            edges.append((self.nodes[child[0].text],
+                         self.nodes[child[1].text]))
 
             for k, v in child.attrib.items():
                 self.link_ids.append(v)

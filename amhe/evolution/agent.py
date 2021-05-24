@@ -8,7 +8,7 @@ class Agent:
     def __init__(self, population_size: int = 10, mutation_chance: float = 0.05,
                  epsilon: float = 0.001, max_lt_epsilon_allowed: int = 10):
         self._poputation_size = population_size
-        self._rng = np.random.default_rng(6969)
+        self._rng = np.random.default_rng(69692502)
         self._population: List[Chromosome] = []
         self._mutation_chance = mutation_chance
         self._epsilon = epsilon
@@ -33,28 +33,30 @@ class Agent:
         new_population = self._population + children
         new_population.sort()
         new_population = new_population[:self._poputation_size]
-        return new_population
+        self._population = new_population
 
     def _select_new_population(self):
         self._do_mutate()
         self._do_cross()
 
-    def _sort_population(self):
-        self._population.sort()
-        assert(self._population is not None)
+    def _find_best_in_population(self):
+        result = self._population[0]
+        for specimen in self._population:
+            if specimen < result:
+                result = specimen
+        return result
     # Returns best chromosome
 
     def do_evolution(self, network: Network, max_repeats: int = 10000) -> Chromosome:
         self._init_population(network)
-        self._sort_population()
 
         i = 0
         lt_epsilon_count = 0
-        best_so_far = self._population[0]
+        best_so_far = self._find_best_in_population()
         best_result_so_far = best_so_far.number_of_visits()
 
         while i < max_repeats:
-            best_from_current = self._population[0]
+            best_from_current = self._find_best_in_population()
             best_result_from_current = best_from_current.number_of_visits()
 
             if best_from_current < best_so_far:
@@ -69,8 +71,9 @@ class Agent:
                 return best_so_far
 
             best_result_so_far = best_so_far.number_of_visits()
+            print(f'Generation number: {i}')
+            print(f'Best result: {best_result_so_far}')
             i += 1
             self._select_new_population()
-            self._sort_population()
 
         return best_so_far

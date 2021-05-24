@@ -11,6 +11,7 @@ class Chromosome:
         self.chromosom: List = deepcopy(chrom)
         self.network: Network = network
         self.rng = rng
+        self._cost = -1
 
     def __lt__(self, other: Chromosome) -> bool:
         lt = self.number_of_visits() < other.number_of_visits()
@@ -89,11 +90,12 @@ class Chromosome:
         number_of_systems = 0
         for edge in edges:
             number_of_systems += math.ceil(edge/self.network.modularity)
+        self._cost = number_of_systems
         return number_of_systems
 
     def returnBestConfig(self) -> List:
         edges = []
-        for i in range(self.network.graph.number_of_edges()):
+        for i in range(self.network.net.number_of_edges()):
             edges.append(0)
 
         for i in range(len(self.chromosom)):

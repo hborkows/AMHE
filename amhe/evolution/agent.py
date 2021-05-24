@@ -31,14 +31,10 @@ class Agent:
         self._do_mutate()
         self._do_cross()
 
-    def _sort_population(self):
-        self._population = self._population.sort()
-        assert(self._population is not None)
     # Returns best chromosome
-
     def do_evolution(self, network: Network, max_repeats: int = 10000) -> Chromosome:
         self._init_population(network)
-        self._sort_population()
+        self._population.sort()
 
         i = 0
         lt_epsilon_count = 0
@@ -63,6 +59,6 @@ class Agent:
             best_result_so_far = best_so_far.number_of_visits()
             i += 1
             self._select_new_population()
-            self._sort_population()
+            self._population.sort()
 
         return best_so_far

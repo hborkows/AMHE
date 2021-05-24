@@ -20,7 +20,7 @@ class TestChromosome:
 
     def test_agent(self):
         network = Network(modularity=2)
-        network.load_network("amhe/data/polska.xml")
+        network.load_network("/home/vm/studia/amhe/amhe/data/polska.xml")
         agent = Agent()
         chrom = agent.do_evolution(network)
         print(chrom)

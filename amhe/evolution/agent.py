@@ -28,11 +28,11 @@ class Agent:
         i = 0
         children = []
         while i < len(self._population) - 1:
-            children.append(self._population[i].cross(self._population[i+1]))
+            children.append(self._population[i].cross(self._population[i + 1]))
             i += 1
         new_population = self._population + children
         new_population.sort()
-        new_population = new_population[:self._population_size]
+        new_population = new_population[:self._poputation_size]
         return new_population
 
     def _select_new_population(self):
@@ -40,7 +40,7 @@ class Agent:
         self._do_cross()
 
     def _sort_population(self):
-        self._population = self._population.sort()
+        self._population.sort()
         assert(self._population is not None)
     # Returns best chromosome
 

@@ -6,16 +6,17 @@ from typing import List
 
 class Agent:
     def __init__(self, population_size: int = 10, mutation_chance: float = 0.05,
-                 epsilon: float = 0.001, max_lt_epsilon_allowed: int = 10):
+                 epsilon: float = 0.001, max_lt_epsilon_allowed: int = 10, aggregated_demands: bool = False):
         self._poputation_size = population_size
         self._rng = np.random.default_rng(69692502)
         self._population: List[Chromosome] = []
         self._mutation_chance = mutation_chance
         self._epsilon = epsilon
         self._max_lt_epsilon_allowed = max_lt_epsilon_allowed
+        self._aggregated_demands = aggregated_demands
 
     def _init_population(self, network: Network):
-        self._population = [Chromosome([], network, self._rng)
+        self._population = [Chromosome([], network, self._rng, self._aggregated_demands)
                             for _ in range(self._poputation_size)]
         for chrom in self._population:
             chrom.fill_random()

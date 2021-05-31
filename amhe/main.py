@@ -37,7 +37,7 @@ def best_params(n_jobs, params_list):
     pool.close()
     pool.join()
     result_df = pd.DataFrame(results)
-    return result_df
+    # return result_df
     return result_df[result_df['result'] == result_df['result'].min()]
 
 

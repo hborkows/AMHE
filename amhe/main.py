@@ -48,8 +48,8 @@ def run_performance_test(params):
     network = Network(modularity=m)
     network.load_network("/home/vm/studia/amhe/amhe/data/polska.xml")
     result_df = pd.DataFrame()
-    for i in range(30):
-        agent = Agent(population_size=2, max_lt_epsilon_allowed=15, mutation_chance=0.001, aggregated_demands=agg, seed=i)
+    for i in range(50):
+        agent = Agent(population_size=20, max_lt_epsilon_allowed=15, mutation_chance=0.001, aggregated_demands=agg, seed=i)
         result = agent.do_evolution(network, mode='partial', colname=f'best_result{i}')
         tmp_df = pd.DataFrame(result)
         tmp_df = tmp_df.set_index('generation')

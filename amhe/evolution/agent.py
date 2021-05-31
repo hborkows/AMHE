@@ -6,9 +6,10 @@ from typing import List
 
 class Agent:
     def __init__(self, population_size: int = 10, mutation_chance: float = 0.05,
-                 epsilon: float = 0.001, max_lt_epsilon_allowed: int = 10, aggregated_demands: bool = False):
+                 epsilon: float = 0.001, max_lt_epsilon_allowed: int = 10, aggregated_demands: bool = False,
+                 seed: int = 69692502):
         self._poputation_size = population_size
-        self._rng = np.random.default_rng(69692502)
+        self._rng = np.random.default_rng(seed)
         self._population: List[Chromosome] = []
         self._mutation_chance = mutation_chance
         self._epsilon = epsilon
@@ -48,9 +49,10 @@ class Agent:
         return result
     # Returns best chromosome
 
-    def do_evolution(self, network: Network, max_repeats: int = 10000) -> Chromosome:
+    def do_evolution(self, network: Network, max_repeats: int = 10000, mode: str = 'best', colname: str = 'best_result'):
         self._init_population(network)
 
+        result_list = []
         i = 0
         lt_epsilon_count = 0
         best_so_far = self._find_best_in_population()
@@ -69,12 +71,25 @@ class Agent:
                 lt_epsilon_count = 0
 
             if lt_epsilon_count >= self._max_lt_epsilon_allowed:
-                return best_so_far
+                if mode == 'best':
+                    return best_so_far
+                elif mode == 'partial':
+                    return result_list
 
             best_result_so_far = best_so_far.number_of_visits()
+
+            if mode == 'partial':
+                result_dict = {
+                    'generation': i,
+                    colname: best_result_so_far
+                }
+                result_list.append(result_dict)
             #print(f'Generation number: {i}')
             #print(f'Best result: {best_result_so_far}')
             i += 1
             self._select_new_population()
 
-        return best_so_far
+        if mode == 'best':
+            return best_so_far
+        elif mode == 'partial':
+            return result_list

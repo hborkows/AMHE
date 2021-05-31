@@ -4,7 +4,7 @@ from typing import List
 from copy import deepcopy
 import numpy as np
 import math
-from random import randrange
+from random import randint
 
 
 class Chromosome:
@@ -29,10 +29,9 @@ class Chromosome:
                 supply = self._get_dirichlet_distribution(vector_lenght=len(d.paths), vector_sum=float(d.capacity))
                 self.chromosome.append(supply)
 
-    @staticmethod
-    def _get_aggregated_distribution(vector_length: int, vector_sum: float) -> List:
+    def _get_aggregated_distribution(self, vector_length: int, vector_sum: float) -> List:
         result = [0.0 for i in range(vector_length)]
-        result.insert(randrange(len(result)+1), vector_sum)
+        result[self.rng.integers(low=0, high=len(result) - 1)] = vector_sum
         return result
 
     def _get_dirichlet_distribution(self, vector_lenght: int, vector_sum: float, scaling_factor: float = 1) -> List:

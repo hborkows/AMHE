@@ -71,8 +71,8 @@ class Agent:
                 return best_so_far
 
             best_result_so_far = best_so_far.number_of_visits()
-            print(f'Generation number: {i}')
-            print(f'Best result: {best_result_so_far}')
+            #print(f'Generation number: {i}')
+            #print(f'Best result: {best_result_so_far}')
             i += 1
             self._select_new_population()
 

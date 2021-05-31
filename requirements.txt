@@ -2,3 +2,4 @@ networkx
 numpy
 pytest
 mock
+pandas

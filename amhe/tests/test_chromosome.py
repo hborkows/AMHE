@@ -24,4 +24,4 @@ class TestChromosome:
         agent = Agent()
         chrom = agent.do_evolution(network)
         print(chrom)
-        assert(True)
+        assert(False, str(chrom))
